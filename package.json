@@ -1,0 +1,23 @@
+{
+  "name": "cas-client",
+  "version": "0.1.0",
+  "description": "A simple cas client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karboom/cas-client.git"
+  },
+  "keywords": [
+    "CAS",
+    "client"
+  ],
+  "author": "karboom",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/karboom/cas-client/issues"
+  },
+  "homepage": "https://github.com/karboom/cas-client"
+}
