@@ -10,6 +10,9 @@
     "type": "git",
     "url": "https://github.com/karboom/cas-client.git"
   },
+  "dependencies" : {
+    "request": "*"
+  },
   "keywords": [
     "CAS",
     "client"
