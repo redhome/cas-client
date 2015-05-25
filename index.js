@@ -10,16 +10,16 @@ Client.prototype.handle = function () {
     var self = this;
 
     return function (req, res, next) {
-        var this_url = 'http://' + req.headers.host + req.url;
+        var this_url = 'http://' + req.headers.host + req.originalUrl;
 
-        if ('undefined' == typeof req.params['ticket']) {
+        if ('undefined' == typeof req.query['ticket']) {
             res.statusCode = 302;
             res.setHeader("Location", self.userValidate + '?service=' + encodeURIComponent(this_url));
             return res.end();
         }
 
         this_url = this_url.replace(/\??ticket=.+/,'');
-        var validate_url = self.serviceValidate + '?ticket=' + req.params['ticket'] + '&service=' + encodeURIComponent(this_url);
+        var validate_url = self.serviceValidate + '?ticket=' + req.query['ticket'] + '&service=' + encodeURIComponent(this_url);
 
         request(validate_url, function (err, response) {
             if (err) {
