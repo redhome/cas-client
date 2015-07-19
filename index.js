@@ -10,7 +10,7 @@ Client.prototype.handle = function () {
     var self = this;
 
     return function (req, res, next) {
-        var this_url = 'http://' + req.headers.host + req.originalUrl||req.url;
+        var this_url = 'http://' + req.headers.host + (req.originalUrl||req.url);
 
         if ('undefined' == typeof req.query['ticket']) {
             res.statusCode = 302;
