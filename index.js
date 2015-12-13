@@ -1,34 +1,39 @@
 var request = require('request');
 
-function Client (config) {
-    this.userValidate = config.userValidate;
-    this.serviceValidate = config.serviceValidate;
-    this.validateHandle = config.validateHandle;
-}
+class Client {
+    constructor(options) {
+        this.userValidate = options.userValidate;
+        this.serviceValidate = options.serviceValidate;
+        this.validateHandler = options.validateHandler || options.validateHandle;
+        this.disableHTTPSRedirect = options.disableHTTPSRedirect;
+    }
 
-Client.prototype.handle = function () {
-    var self = this;
+    handle() {
+        return (req, res, next) => {
+            var schema = "https://";
+            if (this.disableHTTPSRedirect) {
+                schema = "http://"
+            }
+            var url = schema + req.headers.host + (req.originalUrl || req.url);
 
-    return function (req, res, next) {
-        var this_url = 'http://' + req.headers.host + (req.originalUrl||req.url);
-
-        if ('undefined' == typeof req.query['ticket']) {
-            res.statusCode = 302;
-            res.setHeader("Location", self.userValidate + '?service=' + encodeURIComponent(this_url));
-            return res.end();
-        }
-
-        this_url = this_url.replace(/\??ticket=.+/,'');
-        var validate_url = self.serviceValidate + '?ticket=' + req.query['ticket'] + '&service=' + encodeURIComponent(this_url);
-
-        request(validate_url, function (err, response) {
-            if (err) {
-                throw new Error(err);
+            if ('undefined' == typeof req.query['ticket']) {
+                res.statusCode = 302;
+                res.setHeader("Location", this.userValidate + '?service=' + encodeURIComponent(url));
+                return res.end();
             }
 
-            self.validateHandle(response, {req:req, res:res, next:next});
-        });
+            url = url.replace(/\??ticket=.+/, '');
+            var validate_url = this.serviceValidate + '?ticket=' + req.query['ticket'] + '&service=' + encodeURIComponent(url);
+
+            request(validate_url, (err, response) => {
+                if (err) {
+                    throw new Error(err);
+                }
+
+                this.validateHandler(response, {req: req, res: res, next: next});
+            });
+        }
     }
-};
+}
 
 module.exports = Client;

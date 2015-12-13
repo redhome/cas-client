@@ -1,14 +1,14 @@
 {
   "name": "cas-client",
   "version": "0.1.0",
-  "description": "A simple cas client",
+  "description": "A simple cas client for Hangzhou Dianzi University",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/karboom/cas-client.git"
+    "url": "https://github.com/redhome/cas-client.git"
   },
   "dependencies" : {
     "request": "*"
@@ -17,10 +17,10 @@
     "CAS",
     "client"
   ],
-  "author": "karboom",
+  "author": "Redhome Studio",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/karboom/cas-client/issues"
+    "url": "https://github.com/redhome/cas-client/issues"
   },
-  "homepage": "https://github.com/karboom/cas-client"
+  "homepage": "https://github.com/redhome/cas-client"
 }
