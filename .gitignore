@@ -1,1 +1,3 @@
 .idea
+.vscode
+**/typings/**/*.d.ts
