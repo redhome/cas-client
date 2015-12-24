@@ -22,6 +22,6 @@ declare module 'cas-client' {
     export class Client {
         constructor(options: ClientOptions)
 
-        handle(): Request
+        handle(): (req: ServerRequest, res: ServerResponse, next: (error?: any) => void) => void;
     }
 }
