@@ -13,10 +13,10 @@ declare module 'cas-client' {
     }
 
     interface ClientOptions {
-        userValidate: String,
-        serviceValidate: String,
+        userValidate: string,
+        serviceValidate: string,
         validateHandler: (response: IncomingMessage, request: Request) => void,
-        disableHTTPSRedirect: Boolean
+        disableHTTPSRedirect: boolean
     }
 
     export class Client {
