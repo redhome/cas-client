@@ -1,3 +1,5 @@
 .idea
 .vscode
+
 **/typings/**/*.d.ts
+node_modules/
