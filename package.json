@@ -1,6 +1,6 @@
 {
   "name": "cas-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple cas client for Hangzhou Dianzi University",
   "main": "index.js",
   "scripts": {
