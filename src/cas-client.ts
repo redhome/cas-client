@@ -2,7 +2,7 @@
  * Created by lucas on 1/2/16.
  */
 
-import request = require('superagent');
+import * as request from 'superagent';
 import _ = require('lodash');
 import {ServerRequest, ServerResponse, IncomingMessage} from 'http';
 import {parse, format, Url} from 'url';
