@@ -59,42 +59,41 @@ export class Client {
     }
 
     validate(ticket: string, serviceUrl: string, callback: (err: any, res: request.Response) => void) {
-        let validationUrl = <Url> {};
-        for (let attr in this.validationServiceUrl) {
-            if (this.validationServiceUrl.hasOwnProperty(attr)) validationUrl[attr] = this.validationServiceUrl[attr];
-        }
-
+        let validationUrl = _.cloneDeep(this.validationServiceUrl);
+        validationUrl.query = {};
         validationUrl.query['ticket'] = ticket;
-        validationUrl.query['service'] = encodeURIComponent(serviceUrl);
-
+        validationUrl.query['service'] = serviceUrl;
+        
         request.get(format(validationUrl)).end(callback);
     }
 
-    handler() {
-        return (req: any, res: any, next: any) => {
-            const protocol = Protocol[<any> Protocol[this.callbackProtocol]];
-            const url = format({ protocol, host: req.headers.host, pathname: req.url });
-            const ticket = req.query['ticket'];
+    handler(req: any, res: any, next: any) {
+        const protocol = Protocol[this.callbackProtocol];
+        const path = req.url.split('?', 2)[0];
+        const url = format({ protocol, host: req.headers.host, pathname: path });
+        const ticket = req.query['ticket'];
 
-            if ('undefined' === typeof ticket) {
-                res.statusCode = 302;
-                res.setHeader('Location', this.casUrl + '?service=' + encodeURIComponent(url));
-                return res.end();
+        if ('undefined' === typeof ticket) {
+            res.statusCode = 302;
+            res.setHeader('Location', this.casUrl + '?service=' + encodeURIComponent(url));
+            return res.end();
+        }
+        
+        this.validate(ticket, url, (err, response) => {
+            if (err || !response.ok) {
+                return this.validationCallback(err, null, { req, res, next });
             }
 
-            this.validate(ticket, url, (err, response) => {
-                if (err || !response.ok) {
-                    return this.validationCallback(err, null, { req: req, res: res, next: next });
+            parseString(response.text, (err, xml) => {
+                if (err) {
+                    return this.validationCallback(err, null, { req, res, next });
                 }
-                parseString(response.body, (err, xml) => {
-                    if (err) {
-                        return this.validationCallback(err, null, { req: req, res: res, next: next });
-                    }
-                    const attributes = <any>_.get(xml,
-                        ['sso:serviceResponse',
-                            'sso:authenticationSuccess',
-                            'sso:attributes',
-                            'sso:attribute']);
+                const attributes = <any>_.get(xml,
+                    ['sso:serviceResponse',
+                        'sso:authenticationSuccess', '0',
+                        'sso:attributes', '0',
+                        'sso:attribute']);
+                if (attributes) {
                     let attr = {};
                     for (let item of attributes) {
                         attr[item['$'].name] = item['$'].value;
@@ -109,11 +108,12 @@ export class Client {
                         userSex: attr['user_sex'],
                         classId: attr['classid'],
                     };
-                    this.validationCallback(null, result, { req: req, res: res, next: next });
-                });
+                    this.validationCallback(null, result, { req, res, next });
+                } else {
+                    const error = new TypeError('CAS validation response parsing error');
+                    this.validationCallback(error, null, { req, res, next})
+                }
             });
-        };
+        });
     }
 }
-
-
