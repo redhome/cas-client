@@ -12,7 +12,16 @@
       "commit": "d8359c5a99c7965a51dcf0e26b65170f2c53af80"
     },
     "node/node.d.ts": {
-      "commit": "d8359c5a99c7965a51dcf0e26b65170f2c53af80"
+      "commit": "d6c51c607bd90c8bf0e065fabc41bc3f937425df"
+    },
+    "superagent/superagent.d.ts": {
+      "commit": "d6c51c607bd90c8bf0e065fabc41bc3f937425df"
+    },
+    "xml2js/xml2js.d.ts": {
+      "commit": "d6c51c607bd90c8bf0e065fabc41bc3f937425df"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "d6c51c607bd90c8bf0e065fabc41bc3f937425df"
     }
   }
 }
