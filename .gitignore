@@ -5,4 +5,4 @@
 **/typings/**/*.d.ts
 node_modules/
 
-lib/
+build/
