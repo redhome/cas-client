@@ -1,7 +1,7 @@
 # hdu-cas-client
 
 [![npm version](https://img.shields.io/npm/v/hdu-cas-client.svg)](https://www.npmjs.com/package/hdu-cas-client)
-[![npm](https://img.shields.io/npm/l/hdu-cas-client.svg)]()
+[![npm](https://img.shields.io/npm/l/hdu-cas-client.svg)](LICENSE)
 
 A CAS client for Hangzhou Dianzi University.
 
