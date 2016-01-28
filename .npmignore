@@ -1,0 +1,13 @@
+.idea
+.vscode
+
+.editorconfig
+.gitignore
+.npmrc
+
+tsconfig.json
+tsd.json
+typings/
+
+build/
+src/

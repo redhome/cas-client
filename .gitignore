@@ -1,5 +1,8 @@
 .idea
 .vscode
 
+.npmrc
 **/typings/**/*.d.ts
 node_modules/
+
+build/

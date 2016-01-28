@@ -1,29 +1,34 @@
 {
-  "name": "cas-client",
-  "version": "0.2.0",
+  "name": "hdu-cas-client",
+  "version": "0.3.0",
   "description": "A simple cas client for Hangzhou Dianzi University",
-  "main": "index.js",
+  "main": "./lib/cas-client.js",
   "scripts": {
+    "prepublish": "node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/redhome/cas-client.git"
   },
-  "typescript": {
-    "definition": "cas-client.d.ts"
-  },
-  "dependencies" : {
-    "request": "*"
+  "typings": "./lib/cas-client.d.ts",
+  "dependencies": {
+    "lodash": "^4.0.1",
+    "superagent": "^1.7.2",
+    "xml2js": "^0.4.16"
   },
   "keywords": [
     "CAS",
     "client"
   ],
   "author": "Redhome Studio",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/redhome/cas-client/issues"
   },
-  "homepage": "https://github.com/redhome/cas-client"
+  "homepage": "https://github.com/redhome/cas-client",
+  "devDependencies": {
+    "tsd": "^0.6.5",
+    "typescript": "^1.7.5"
+  }
 }
