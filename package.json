@@ -29,6 +29,7 @@
   "homepage": "https://github.com/redhome/cas-client",
   "devDependencies": {
     "tsd": "^0.6.5",
+    "tslint": "^3.3.0",
     "typescript": "^1.7.5"
   }
 }
