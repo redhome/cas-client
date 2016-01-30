@@ -6,7 +6,6 @@
 .npmrc
 
 tsconfig.json
-tsd.json
 typings/
 
 build/

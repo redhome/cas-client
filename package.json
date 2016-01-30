@@ -1,6 +1,6 @@
 {
   "name": "hdu-cas-client",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A simple cas client for Hangzhou Dianzi University",
   "main": "./lib/hdu-cas-client.js",
   "scripts": {

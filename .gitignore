@@ -2,7 +2,7 @@
 .vscode
 
 .npmrc
-**/typings/**/*.d.ts
+typings/
 node_modules/
 
 build/

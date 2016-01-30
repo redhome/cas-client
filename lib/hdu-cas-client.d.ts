@@ -13,7 +13,7 @@ export interface IClientOptions {
     casUrl: string;
     validationServiceUrl: string;
     validationCallback: (error: any, response: IValidationResult, request: IRequest) => void;
-    callbackProtocol: Protocol;
+    callbackProtocol: 'https' | 'http';
 }
 export interface IValidationResult {
     staffName: string;
@@ -25,15 +25,11 @@ export interface IValidationResult {
     userSex: string;
     classId: string;
 }
-export declare enum Protocol {
-    http = 0,
-    https = 1,
-}
 export declare class Client {
     casUrl: string;
     validationServiceUrl: Url;
     validationCallback: (error: any, response: IValidationResult, request: IRequest) => void;
-    callbackProtocol: Protocol;
+    callbackProtocol: 'https' | 'http';
     constructor({casUrl, validationServiceUrl, validationCallback, callbackProtocol}: IClientOptions);
     validate(ticket: string, serviceUrl: string, callback: (err: any, res: request.Response) => void): void;
     handler(req: any, res: any, next: any): any;
