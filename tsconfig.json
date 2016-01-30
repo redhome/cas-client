@@ -2,15 +2,17 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
-    "noImplicitAny": false,
     "outDir": "build",
     "rootDir": "src",
+    "noImplicitAny": false,
     "sourceMap": true,
     "declaration": true
   },
   "exclude": [
     "node_modules",
-    "dist",
-    "temp"
+    "typings/browser.d.ts",
+    "typings/browser",
+    "build",
+    "lib"
   ]
 }

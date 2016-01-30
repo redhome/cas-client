@@ -1,0 +1,10 @@
+{
+  "name": "hdu-cas-client",
+  "main": "lib/hdu-cas-client.d.ts",
+  "ambientDependencies": {
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#d6c51c607bd90c8bf0e065fabc41bc3f937425df",
+    "superagent": "github:DefinitelyTyped/DefinitelyTyped/superagent/superagent.d.ts#d6c51c607bd90c8bf0e065fabc41bc3f937425df",
+    "xml2js": "github:DefinitelyTyped/DefinitelyTyped/xml2js/xml2js.d.ts#d6c51c607bd90c8bf0e065fabc41bc3f937425df",
+    "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#d6c51c607bd90c8bf0e065fabc41bc3f937425df"
+  }
+}
