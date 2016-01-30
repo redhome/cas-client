@@ -18,7 +18,7 @@ export interface IClientOptions {
     casUrl: string;
     validationServiceUrl: string;
     validationCallback: (error: any, response: IValidationResult, request: IRequest) => void;
-    callbackProtocol: Protocol;
+    callbackProtocol: 'https' | 'http';
 }
 
 export interface IValidationResult {
@@ -40,16 +40,11 @@ export interface IValidationResult {
     classId: string;
 }
 
-export enum Protocol {
-    http,
-    https
-}
-
 export class Client {
     casUrl: string;
     validationServiceUrl: Url;
     validationCallback: (error: any, response: IValidationResult, request: IRequest) => void;
-    callbackProtocol: Protocol;
+    callbackProtocol: 'https' | 'http';
 
     constructor({
         casUrl,
@@ -75,9 +70,12 @@ export class Client {
     }
 
     handler(req: any, res: any, next: any) {
-        const protocol = Protocol[this.callbackProtocol];
         const path = req.url.split('?', 2)[0];
-        const url = format({ protocol, host: req.headers.host, pathname: path });
+        const url = format({
+            host: req.headers.host,
+            pathname: path,
+            protocol: this.callbackProtocol,
+        });
         const ticket = req.query.ticket;
 
         if ('undefined' === typeof ticket) {
