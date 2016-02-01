@@ -32,5 +32,5 @@ export declare class Client {
     callbackProtocol: 'https' | 'http';
     constructor({casUrl, validationServiceUrl, validationCallback, callbackProtocol}: IClientOptions);
     validate(ticket: string, serviceUrl: string, callback: (err: any, res: request.Response) => void): void;
-    handler(req: any, res: any, next: any): any;
+    handler(): (req: ServerRequest, res: ServerResponse, next: any) => void;
 }
