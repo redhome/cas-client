@@ -3,6 +3,7 @@
   "version": "0.3.2",
   "description": "A simple cas client for Hangzhou Dianzi University",
   "main": "./lib/hdu-cas-client.js",
+  "typings": "./lib/hdu-cas-client.d.ts",
   "scripts": {
     "prepublish": "node_modules/.bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"

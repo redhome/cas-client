@@ -70,21 +70,21 @@ export class Client {
     }
 
     handler(req: any, res: any, next: any) {
-        const path = req.url.split('?', 2)[0];
-        const url = format({
+        const urlObj = parse(req.url);
+        const callbackUrl = format({
             host: req.headers.host,
-            pathname: path,
+            pathname: urlObj.pathname,
             protocol: this.callbackProtocol,
         });
         const ticket = req.query.ticket;
 
         if ('undefined' === typeof ticket) {
             res.statusCode = 302;
-            res.setHeader('Location', this.casUrl + '?service=' + encodeURIComponent(url));
+            res.setHeader('Location', this.casUrl + '?service=' + encodeURIComponent(callbackUrl));
             return res.end();
         }
 
-        this.validate(ticket, url, (err, response) => {
+        this.validate(ticket, callbackUrl, (err, response) => {
             if (err || !response.ok) {
                 return this.validationCallback(err, null, { req, res, next });
             }
