@@ -3,7 +3,7 @@
  */
 
 import * as request from 'superagent';
-import _ = require('lodash');
+import * as _ from 'lodash';
 import {ServerRequest, ServerResponse} from 'http';
 import {parse, format, Url} from 'url';
 import {parseString} from 'xml2js';
@@ -69,56 +69,58 @@ export class Client {
         request.get(format(validationUrl)).end(callback);
     }
 
-    handler(req: any, res: any, next: any) {
-        const urlObj = parse(req.url);
-        const callbackUrl = format({
-            host: req.headers.host,
-            pathname: urlObj.pathname,
-            protocol: this.callbackProtocol,
-        });
-        const ticket = req.query.ticket;
+    handler() {
+        return (req: ServerRequest, res: ServerResponse, next: any) => {
+            const urlObj = parse(req.url);
+            const callbackUrl = format({
+                host: req.headers.host,
+                pathname: urlObj.pathname,
+                protocol: this.callbackProtocol,
+            });
+            const ticket = urlObj.query.ticket;
 
-        if ('undefined' === typeof ticket) {
-            res.statusCode = 302;
-            res.setHeader('Location', this.casUrl + '?service=' + encodeURIComponent(callbackUrl));
-            return res.end();
-        }
-
-        this.validate(ticket, callbackUrl, (err, response) => {
-            if (err || !response.ok) {
-                return this.validationCallback(err, null, { req, res, next });
+            if ('undefined' === typeof ticket) {
+                res.statusCode = 302;
+                res.setHeader('Location', this.casUrl + '?service=' + encodeURIComponent(callbackUrl));
+                return res.end();
             }
 
-            parseString(response.text, (error, xml) => {
-                if (error) {
-                    return this.validationCallback(error, null, { req, res, next });
+            this.validate(ticket, callbackUrl, (err, response) => {
+                if (err || !response.ok) {
+                    return this.validationCallback(err, null, { req, res, next });
                 }
-                const attributes = <any>_.get(xml,
-                    ['sso:serviceResponse',
-                        'sso:authenticationSuccess', '0',
-                        'sso:attributes', '0',
-                        'sso:attribute']);
-                if (attributes) {
-                    let attr = <any> {};
-                    for (let item of attributes) {
-                        attr[item.$.name] = item.$.value;
+
+                parseString(response.text, (error, xml) => {
+                    if (error) {
+                        return this.validationCallback(error, null, { req, res, next });
                     }
-                    const result = {
-                        classId: attr.classid,
-                        idType: attr.id_type,
-                        staffId: attr.userName,
-                        staffName: attr.user_name,
-                        unitId: attr.unit_id,
-                        unitName: attr.unit_name,
-                        userId: attr.user_id,
-                        userSex: attr.user_sex,
-                    };
-                    this.validationCallback(null, result, { req, res, next });
-                } else {
-                    const e = new TypeError('CAS validation response parsing error');
-                    this.validationCallback(e, null, { req, res, next });
-                }
+                    const attributes = <any>_.get(xml,
+                        ['sso:serviceResponse',
+                            'sso:authenticationSuccess', '0',
+                            'sso:attributes', '0',
+                            'sso:attribute']);
+                    if (attributes) {
+                        let attr = <any> {};
+                        for (let item of attributes) {
+                            attr[item.$.name] = item.$.value;
+                        }
+                        const result = {
+                            classId: attr.classid,
+                            idType: attr.id_type,
+                            staffId: attr.userName,
+                            staffName: attr.user_name,
+                            unitId: attr.unit_id,
+                            unitName: attr.unit_name,
+                            userId: attr.user_id,
+                            userSex: attr.user_sex,
+                        };
+                        this.validationCallback(null, result, { req, res, next });
+                    } else {
+                        const e = new TypeError('CAS validation response parsing error');
+                        this.validationCallback(e, null, { req, res, next });
+                    }
+                });
             });
-        });
+        };
     }
 }
