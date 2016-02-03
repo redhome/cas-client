@@ -33,4 +33,5 @@ export declare class Client {
     constructor({casUrl, validationServiceUrl, validationCallback, callbackProtocol}: IClientOptions);
     validate(ticket: string, serviceUrl: string, callback: (err: any, res: request.Response) => void): void;
     handler(): (req: ServerRequest, res: ServerResponse, next: any) => void;
+    static parseResult(xml: any, callback: (error: any, result: IValidationResult) => void): void;
 }
